@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
         } else {
 
-            sexo_txt.text = "Homem"
+            sexo_txt.text = " Homem"
         }
     }
 
