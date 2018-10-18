@@ -1,14 +1,9 @@
 package com.example.fgoncalves.calculadora_imc
-
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.ActionBarDrawerToggle
 import android.widget.SeekBar
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import kotlin.properties.Delegates
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         swSexo?.setOnClickListener {
             exibir()
         }
+
+
         /**
          * Captura os dados da seekbar idade e exibe no campo idade_txt
          */
@@ -83,44 +80,48 @@ class MainActivity : AppCompatActivity() {
 
 
         /**
-         * Botão calcular, captura os valores da seekbar e calcula o IMC, exibindo o resultado.
+         * Botão calcular, captura os valores da seekbar e radiogroup, calcula o IMC, exibindo o resultado.
          */
-        calcular_btn.setOnClickListener {
-            val altura_int = altura_sb.progress.toDouble()
-            val peso_int = peso_sb.progress.toDouble()
 
-            val imc = peso_int / ((altura_int * altura_int) / 10000)
+        radioGroup?.setOnCheckedChangeListener { group, checkedId ->
+            atv = ""
 
-            resultado.text = "IMC = " + "%.1f".format(imc)
+            when (checkedId) {
+                R.id.rdbSedentario -> atv = "Você precisa se exercitar mais!"
+                R.id.rdbModerado -> atv = "Você esta no camino certo!"
+                R.id.rdbIntenso -> atv = "Parabéns, sua saúde agradece!"
+            }
 
+            calcular_btn.setOnClickListener {
+                val altura_int = altura_sb.progress.toDouble()
+                val peso_int = peso_sb.progress.toDouble()
 
+                val imc = peso_int / ((altura_int * altura_int) / 10000)
 
-            radioGroup?.setOnCheckedChangeListener{group, checkedId -> atv = ""
-
-                when(checkedId){
-                    R.id.rdbSedentario -> atv = "Você precisa se exercitar mais!"
-                    R.id.rdbModerado -> atv =  "Você esta no camino certo!"
-                    R.id.rdbIntenso -> atv =  "Parabéns, sua saúde agradece!"
-                }
+                resultado.text = "IMC = " + "%.1f".format(imc)
                 resultado2.text = atv
+
             }
 
+
         }
+
+
     }
 
 
-        private fun exibir(){
-            if (swSexo.isChecked) {
-               //Toast.makeText(this, " Mulher" , Toast.LENGTH_LONG)
-                sexo_txt.text = " Mulher"
+    private fun exibir() {
+        if (swSexo.isChecked) {
 
-            } else {
-               // Toast.makeText(this, " Homem", Toast.LENGTH_LONG)
-                sexo_txt.text = "Homem"
-            }
+            sexo_txt.text = " Mulher"
+
+        } else {
+
+            sexo_txt.text = "Homem"
         }
-
     }
+
+}
 
 
 
