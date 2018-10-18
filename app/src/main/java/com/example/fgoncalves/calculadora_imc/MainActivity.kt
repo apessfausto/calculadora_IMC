@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
 
         /**
-         * Botão calcular, captura os valores da seekbar e radiogroup, calcula o IMC, exibindo o resultado.
+         * Botão calcular, captura os valores da seekbar e radiogroup, calcula o IMC, exibindo o resultado e classifica o IMC no RatingBar.
          */
 
         radioGroup?.setOnCheckedChangeListener { group, checkedId ->
@@ -92,14 +92,42 @@ class MainActivity : AppCompatActivity() {
                 R.id.rdbIntenso -> atv = "Parabéns, sua saúde agradece!"
             }
 
+
             calcular_btn.setOnClickListener {
+
+
                 val altura_int = altura_sb.progress.toDouble()
                 val peso_int = peso_sb.progress.toDouble()
 
                 val imc = peso_int / ((altura_int * altura_int) / 10000)
 
-                resultado.text = "IMC = " + "%.1f".format(imc)
+
                 resultado2.text = atv
+
+
+                if (imc < 16) {
+
+                    resultado.text = "%.1f".format(imc) + " IMC muito abaixo do peso."
+                    classifica.rating = 1.5.toFloat()
+
+                } else if (imc > 16 && imc < 18) {
+                    resultado.text = "%.1f".format(imc) + " IMC abaixo do peso."
+                    classifica.rating = 3.toFloat()
+
+                } else if (imc > 18 && imc < 24) {
+                    resultado.text = "%.1f".format(imc) + " IMC normal."
+                    classifica.rating = 5.toFloat()
+
+                } else if (imc > 25 && imc < 29) {
+                    resultado.text = "%.1f".format(imc) + " IMC acima do normal."
+                    classifica.rating = 3.toFloat()
+
+                } else if (imc > 30) {
+                    resultado.text = "%.1f".format(imc) + " IMC muito acima do peso."
+                    classifica.rating = 1.5.toFloat()
+
+                }
+
 
             }
 
@@ -109,7 +137,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    /**
+     * Função para exibir o status no Switch
+     */
     private fun exibir() {
         if (swSexo.isChecked) {
 
